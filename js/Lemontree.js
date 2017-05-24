@@ -94,10 +94,7 @@
 	
 	function getElementByClassName(className, tag, parent) {
 		parent = parent || document;
-		
-		if (tag == undefined) {
-			tag = "*";
-		};
+		tag = tag || "*";
 		
 		if (!(parent = $(parent))) {return false};
 		
