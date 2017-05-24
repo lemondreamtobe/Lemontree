@@ -193,4 +193,20 @@
 	};
 	window["Lemontree"]["prependChild"] = prependChild;
 	
+	function bindFunction(obj, func) {
+		return function() {
+			func.apply(obj, arguments);
+		};
+	};
+	window["Lemontree"]["binFunction"] = bindFunction;
+	
+	function getBrowserWindowSize() {
+		var de = document.documentElement;
+		return {
+			'width' :(window.innerWidth || (de && de.clientWidth) || document.body.width),
+			'height' :(window.innerHeight || (de && de.clientHeight) || document.body.height)
+		}
+	};
+	window["Lemontree"]["getBrowserWindowSize"] = getBrowserWindowSize;
+	
 })();
