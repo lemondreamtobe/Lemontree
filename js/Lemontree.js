@@ -60,7 +60,7 @@
 			//MSIE方法
 			node["e" + type + listener] = listener;
 			node[type + listener] = function() {
-				node["e" + type + listener](window.event);
+			node["e" + type + listener](window.event);
 			}
 			node.attachEvent("on" + type, node[type + listener]);
 			return true;
@@ -95,10 +95,14 @@
 	function getElementByClassName(className, tag, parent) {
 		parent = parent || document;
 		
+		if (tag == undefined) {
+			tag = "*";
+		};
+		
 		if (!(parent = $(parent))) {return false};
 		
 		//查找所有匹配的标签
-		var allTags = (tag == "*" && parent.all)? parent.all : parent.getElementsByTagName(tag);
+		var allTags = (tag == "*" && parent.all) ? parent.all : parent.getElementsByTagName(tag);
 		var mathchingElements = new Array();
 		
 		//创建正则检查classname
@@ -143,6 +147,9 @@
 			return false;
 		};
 		return referenceNode.parentNode.insertBefore(node, referenceNode.nextSibling);
+		
+		//当referenceNode是最后一个子节点的情况下
+		//referenceNode.nextSibling是null， 不能实现
 	};
 	window["Lemontree"]["insertAfter"] = insertAfter;
 	
@@ -184,6 +191,8 @@
 		
 		//返回父元素，方便以.连缀处理
 		return parent;
+		
+		//也可以操作并没有添加进文档中的元素
 	};
 	window["Lemontree"]["prependChild"] = prependChild;
 	
