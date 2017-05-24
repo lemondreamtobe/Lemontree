@@ -192,5 +192,6 @@
 		//也可以操作并没有添加进文档中的元素
 	};
 	window["Lemontree"]["prependChild"] = prependChild;
+	mkmkmk
 	
 })();
