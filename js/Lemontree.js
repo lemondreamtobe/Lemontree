@@ -221,6 +221,58 @@
 		DOCUMENT_TYPE_NODE          : 10,
 		DOCUMENT_FRAGMENT_NODE      : 11,
 		NOTATION_NODE               : 12	
-	}
+	};
 	
+	function walkElementsLinear(func, node) {
+		var root = node || window.document;
+		var nodes = root.getElementsByTagName("*");
+		for (var i = 0; i < nodes.length; i++) {
+			func.call(nodes[i]);
+		};
+	};
+	window["Lemontree"]["walkElementsLinear"] = walkElementsLinear;
+	
+	//有问题，待测试
+	function walkTheDomRecursive(func, node, depth, returnedFromParent) {
+		var root = node || window.document;
+		var returnedFromParent = func.call(root, depth++, returnedFromParent);
+		var node = root.firstChild;
+		
+		while (node) {
+			walkTheDomRecursive(func, node, depth, returnedFromParent);
+			node = node.nextSibling;
+		};
+		
+	};
+	window["Lemontree"]["walkTheDomRecursive"] = walkTheDomRecursive;
+	
+	//待测试
+	function walkTheDomWithAttributes(node, func, depth, returnedFromParent) {
+		var root = node || window.document;
+		var returnedFromParent = func.call(root, depth++, returnedFromParent);
+		
+		if (root.attributes) {
+			for (var i = 0; i < root.attributes.length; i++) {
+				walkTheDomWithAttributes(root.attributes[i], func, depth-1, returnedFromParent);	
+			}
+		};
+		
+		if (root.nodeType != Lemontree.node.ATTRIBUTE_NODE) {
+			node = root.firstChild;
+			
+			while (node) {
+				walkTheDomWithAttributes(node, func, depth, returnedFromParent);
+				node = node.nextSibling;
+			};
+		};
+	};
+	window["Lemontree"]["walkTheDomWithAttributes"] = walkTheDomWithAttributes;
+	
+	//用于处理嵌入样式的属性
+	function camelize(s) {
+		return s.replace(/-(\w)/g, function(strMatch, p1) {
+			return pl.toUpperCase();
+		});
+	};
+	window["Lemontree"]["camelize"] = camelize;
 })();
