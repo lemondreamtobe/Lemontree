@@ -322,23 +322,59 @@
 	function getMouseButton(e) {
 		e = e || getEvent(e);
 		
-		if (document.implementation.hasFeature("MouseEvents", "2.0")) {
-            return e.button;
-        } else {
-            switch (e.button) {
-                case 0 :
-                case 1 :
-                case 3 :
-                case 5 :
-                case 7 :
-                    return 0;
-                case 2 :
-                case 6 :
-                    return 2;
-                case 4 :
-                    return 1;
-            };
-       };
+		//初始化对象保存鼠标状态
+		var whichButton = {
+			"left-button": false,
+			"mid-button": false,
+			"right-button": false
+		};
+		
+		//检查返回值
+		if (e.toString && e.toString().indexOf("MouseEvent") != -1) {
+			
+			switch (e.button) {
+				
+				case 0 : whichButton['left-button'] = true; break;
+				
+				case 1 : whichButton['mid-button'] = true; break;
+				
+				case 2 : whichButton['right-button'] = true; break;
+				
+				default : break;
+			};
+		} else if (e.button) {
+			
+			switch (e.button) {
+				
+				case 1 : whichButton['left-button'] = true; break;
+				
+				case 2 : whichButton['right-button'] = true; break;
+				
+				case 3 : whichButton['left-button'] = true;
+						 whichButton['right-button'] = true; 
+						 break;
+						 
+				case 4 : whichButton['mid-button'] = true; break;
+				
+				case 5 : whichButton['left-button'] = true;
+						 whichButton['mid-button'] = true; 
+						 break;
+				
+				case 6 : whichButton['mid-button'] = true;
+						 whichButton['right-button'] = true; 
+						 break;
+						 
+				case 7 :  whichButton['left-button'] = true;
+				  		  whichButton['mid-button'] = true;
+				 		  whichButton['right-button'] = true; 
+				 		  break;
+				
+				default : break;
+			}
+		} else {
+			return false;
+		};
+		return whichButton;
 	};
 	window["Lemontree"]["getMouseButton"] = getMouseButton;
 	
@@ -354,4 +390,12 @@
 	};
 	window["Lemontree"]["getMousePosition"] = getMousePosition;
 	
+	function getKeyPress(e) {
+		e = e || getEvent(e);
+		
+		var code = e.keyCode;
+		var value = String.fromCharCode(code);
+		return {'code':code,'value':value};
+	};
+	window["Lemontree"]["getKeyPress"] = getKeyPress;
 })();
