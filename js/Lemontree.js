@@ -1,3 +1,8 @@
+/*
+ * personal JS library
+ * name of library：Lemontree
+ * writer: Lemon-zhang
+ */
 (function () {
 	
 	if (!window.Lemontree) {
@@ -269,10 +274,24 @@
 	window["Lemontree"]["walkTheDomWithAttributes"] = walkTheDomWithAttributes;
 	
 	//用于处理嵌入样式的属性
+	//改变了原著的camelize函数
 	function camelize(s) {
-		return s.replace(/-(\w)/g, function(strMatch, p1) {
-			return pl.toUpperCase();
-		});
+		var stringArray = s.split("-");
+		var stringStr = stringArray[0];
+		function initialUp(s) {
+			var stringArray = s.split("");
+			stringArray[0] = stringArray[0].toUpperCase();
+			return stringArray.join("");
+		};
+		for (var i = 0; i < stringArray.length; i++) {
+			
+			if (i == 0) {
+				continue;
+			} else {
+				stringStr += initialUp(stringArray[i]);
+			};
+		};
+		return stringStr;
 	};
 	window["Lemontree"]["camelize"] = camelize;
 	
@@ -398,4 +417,52 @@
 		return {'code':code,'value':value};
 	};
 	window["Lemontree"]["getKeyPress"] = getKeyPress;
+	
+	//通过id修改单个元素样式
+	function setStyleById(element, styles) {
+		
+		//取得对象的引用
+		if (!(element = $(element))) {
+			return false;
+		};
+		
+		//循环遍历styles对象每个属性
+		for (prop in styles) {
+			
+			if (!styles.hasOwnProperty(prop)) {continue};
+			
+			if (element.style.setProperty) {
+				element.style.setProperty(prop, styles[prop], null);
+			} else {
+				element.style[camelize(prop)] = styles[prop];
+			}
+		};
+	};
+	window["Lemontree"]["setStyleById"] = setStyleById;
+	
+	//通过类名修改多个元素样式
+	function setStyleByClassName(parent, tag, className, styles) {
+		
+		if (!(parent = $(parent))) {
+			return false;
+		};
+		var elements = getElementByClassName(className, tag, parent);
+		for (var i = 0; i < elements.length; i++) {
+			setStyleById(elements[i], styles);
+		};
+		return true;
+	};
+	window["Lemontree"]["setStyleByClassName"] = setStyleByClassName;
+	
+	//通过标签名修改多个元素的样式
+	function setStyleByTagName(tagName, styles, parent) {
+		parent = $(parent) || document;
+		var elements = parent.getElementsByTagName(tagName);
+		for (var i = 0; i < elements.length; i++) {
+			setStyleById(elements[i], styles);
+		};
+		return true;
+	};
+	window["Lemontree"]["setStyleByTagName"] = setStyleByTagName;
+	
 })();
