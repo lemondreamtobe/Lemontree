@@ -235,6 +235,7 @@
 			func.call(nodes[i]);
 		};
 	};
+		
 	window["Lemontree"]["walkElementsLinear"] = walkElementsLinear;
 	
 	//有问题，待测试
@@ -464,5 +465,79 @@
 		return true;
 	};
 	window["Lemontree"]["setStyleByTagName"] = setStyleByTagName;
+	
+	function getClassNames(element) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		return element.className.replace(/s+/,"").split(" ");
+	};
+	window["Lemontree"]["getClassNames"] = getClassNames;
+	
+	function hasClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		var classes = getClassNames(element);
+		for (var i = 0; i < classes.length; i++) {
+			
+			if (className === classes[i]) {
+				return true;
+			};
+		};
+		return false;
+	};
+	window["Lemontree"]["hasClassName"] = hasClassName;
+	
+	function addClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		element.className += (element.className ? " " : " ") + className;
+		return true;
+	};
+	window["Lemontree"]["addClassName"] = addClassName;
+	
+	function removeClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		var classes = getClassNames(element, className);
+		var length = classes.length;
+		for (var i = classes.length - 1; i > 0; i--) {
+			
+			if (className === classes[i]) {
+				delete classes[i];
+			};
+			element.className = classes.join(" ");
+			return (length == classes.length ? false : true);
+		};
+	};
+	window["Lemontree"]["removeClassName"] = removeClassName;
+	
+	function addStyleSheet(url, media) {
+		media = media || "screen";
+		var link = document.createElement("link");
+		link.setAttribute("rel", "stylesheet");
+		link.setAttribute("type", "text/css");
+		link.setAttribute("href", url);
+		link.setAttribute("media", media);
+		document.getElementsByTagName("head")[0].appendChild(link);
+	};
+	window["Lemontree"]["addStyleSheet"] = addStyleSheet;
+	
+	function removeStyleSheet(url, media) {
+		var styles = getStyleSheet(url, media);
+		for (var i = 0; i < styles.length; i ++) {
+			var node = styles[i].ownerNode || styles[i].owningElement;
+			styles[i].disabled = true;
+			node.parentNode.removeChild(node);
+		};
+	};
+	window["Lemontree"]["removeStyleSheet"] = removeStyleSheet;
 	
 })();
