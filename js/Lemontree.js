@@ -275,4 +275,83 @@
 		});
 	};
 	window["Lemontree"]["camelize"] = camelize;
+	
+	function getEvent(e) {
+		return e || window.event;
+	};
+	window["Lemontree"]["getEvent"] = getEvent;
+	
+	function stopPropagation(e) {
+		e = e || getEvent(e);
+		
+		if (e.stopPropagation) {
+			e.stopPropagation();
+		} else {
+			e.cancelBubble = true;
+		};
+	};
+	window["Lemontree"]["stopPropagation"] = stopPropagation;
+	
+	function preventDefault(e) {
+		e = e || getEvent(e);
+		
+		if (e.preventDefault) {
+			e.preventDefault();
+		} else {
+			e.returnValue = false;
+		};
+	};
+	window["Lemontree"]["preventDefault"] = preventDefault;
+	
+	function getTarget(e) {
+		e = e || getEvent(e);
+		
+		//如果是W3C模型或者IE
+		var target = e.target || e.srcElement;
+		
+		//safari中指定文本的父节点
+		if (target.nodeType == Lemontree.node.TEXT_NODE) {
+			target = target.parentNode;
+		};
+		return target;
+	};
+	window["Lemontree"]["getTarget"] = getTarget;
+	
+	//获取鼠标按键名：0为左键，1为中间键，2为右键
+	//待测试，右键不行
+	function getMouseButton(e) {
+		e = e || getEvent(e);
+		
+		if (document.implementation.hasFeature("MouseEvents", "2.0")) {
+            return e.button;
+        } else {
+            switch (e.button) {
+                case 0 :
+                case 1 :
+                case 3 :
+                case 5 :
+                case 7 :
+                    return 0;
+                case 2 :
+                case 6 :
+                    return 2;
+                case 4 :
+                    return 1;
+            };
+       };
+	};
+	window["Lemontree"]["getMouseButton"] = getMouseButton;
+	
+	//获取鼠标在相对于文档原点的位置
+	function getMousePosition(e) {
+		e = e || getEvent(e);
+		
+		//safari:pageX                    W3C                                    IE
+		var x = e.pageX || (e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
+		var y = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+		
+		return {"x" : x , "y" : y};
+	};
+	window["Lemontree"]["getMousePosition"] = getMousePosition;
+	
 })();
