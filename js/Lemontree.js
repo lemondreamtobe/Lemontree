@@ -21,6 +21,7 @@
 	};
 	window["Lemontree"]["isCompatible"] = isCompatible;
 	
+	//查找元素
 	function $() {
 		var elements = new Array();
 		
@@ -205,6 +206,7 @@
 	};
 	window["Lemontree"]["binFunction"] = bindFunction;
 	
+	//获取窗口大小
 	function getBrowserWindowSize() {
 		var de = document.documentElement;
 		return {
@@ -213,6 +215,8 @@
 		}
 	};
 	window["Lemontree"]["getBrowserWindowSize"] = getBrowserWindowSize;
+	
+	//节点类型
 	window["Lemontree"]["node"] = {
 		ELEMENT_NODE                : 1,
 		ATTRIBUTE_NODE              : 2,
@@ -228,6 +232,7 @@
 		NOTATION_NODE               : 12	
 	};
 	
+	//遍历节点
 	function walkElementsLinear(func, node) {
 		var root = node || window.document;
 		var nodes = root.getElementsByTagName("*");
@@ -238,7 +243,7 @@
 		
 	window["Lemontree"]["walkElementsLinear"] = walkElementsLinear;
 	
-	//有问题，待测试
+	//迭代节点有问题，待测试
 	function walkTheDomRecursive(func, node, depth, returnedFromParent) {
 		var root = node || window.document;
 		var returnedFromParent = func.call(root, depth++, returnedFromParent);
@@ -466,6 +471,7 @@
 	};
 	window["Lemontree"]["setStyleByTagName"] = setStyleByTagName;
 	
+	//获取元素class名
 	function getClassNames(element) {
 		
 		if (!(element = $(element))) {
@@ -519,6 +525,7 @@
 	};
 	window["Lemontree"]["removeClassName"] = removeClassName;
 	
+	//增加和移除link
 	function addStyleSheet(url, media) {
 		media = media || "screen";
 		var link = document.createElement("link");
