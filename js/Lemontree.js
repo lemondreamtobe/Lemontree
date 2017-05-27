@@ -21,6 +21,7 @@
 	};
 	window["Lemontree"]["isCompatible"] = isCompatible;
 	
+	//查找元素
 	function $() {
 		var elements = new Array();
 		
@@ -206,6 +207,7 @@
 	};
 	window["Lemontree"]["binFunction"] = bindFunction;
 	
+	//获取窗口大小
 	function getBrowserWindowSize() {
 		var de = document.documentElement;
 		return {
@@ -214,6 +216,8 @@
 		}
 	};
 	window["Lemontree"]["getBrowserWindowSize"] = getBrowserWindowSize;
+	
+	//节点类型
 	window["Lemontree"]["node"] = {
 		ELEMENT_NODE                : 1,
 		ATTRIBUTE_NODE              : 2,
@@ -229,6 +233,7 @@
 		NOTATION_NODE               : 12	
 	};
 	
+	//遍历节点
 	function walkElementsLinear(func, node) {
 		var root = node || window.document;
 		var nodes = root.getElementsByTagName("*");
@@ -236,9 +241,10 @@
 			func.call(nodes[i]);
 		};
 	};
+		
 	window["Lemontree"]["walkElementsLinear"] = walkElementsLinear;
 	
-	//有问题，待测试
+	//迭代节点有问题，待测试
 	function walkTheDomRecursive(func, node, depth, returnedFromParent) {
 		var root = node || window.document;
 		var returnedFromParent = func.call(root, depth++, returnedFromParent);
@@ -466,4 +472,101 @@
 	};
 	window["Lemontree"]["setStyleByTagName"] = setStyleByTagName;
 	
+	//获取元素class名
+	function getClassNames(element) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		return element.className.replace(/s+/,"").split(" ");
+	};
+	window["Lemontree"]["getClassNames"] = getClassNames;
+	
+	function hasClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		var classes = getClassNames(element);
+		for (var i = 0; i < classes.length; i++) {
+			
+			if (className === classes[i]) {
+				return true;
+			};
+		};
+		return false;
+	};
+	window["Lemontree"]["hasClassName"] = hasClassName;
+	
+	function addClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		element.className += (element.className ? " " : " ") + className;
+		return true;
+	};
+	window["Lemontree"]["addClassName"] = addClassName;
+	
+	function removeClassName(element, className) {
+		
+		if (!(element = $(element))) {
+			return false;
+		};
+		var classes = getClassNames(element, className);
+		var length = classes.length;
+		for (var i = classes.length - 1; i > 0; i--) {
+			
+			if (className === classes[i]) {
+				delete classes[i];
+			};
+			element.className = classes.join(" ");
+			return (length == classes.length ? false : true);
+		};
+	};
+	window["Lemontree"]["removeClassName"] = removeClassName;
+	
+	//增加和移除link
+	function addStyleSheet(url, media) {
+		media = media || "screen";
+		var link = document.createElement("link");
+		link.setAttribute("rel", "stylesheet");
+		link.setAttribute("type", "text/css");
+		link.setAttribute("href", url);
+		link.setAttribute("media", media);
+		document.getElementsByTagName("head")[0].appendChild(link);
+	};
+	window["Lemontree"]["addStyleSheet"] = addStyleSheet;
+	
+	function removeStyleSheet(url, media) {
+		var styles = getStyleSheet(url, media);
+		for (var i = 0; i < styles.length; i ++) {
+			var node = styles[i].ownerNode || styles[i].owningElement;
+			styles[i].disabled = true;
+			node.parentNode.removeChild(node);
+		};
+	};
+	window["Lemontree"]["removeStyleSheet"] = removeStyleSheet;
+	
+	function getComputedStyle(element, prop){
+		
+		if (!(element = $(element)) || !prop) {return false;}
+		var value = element.style[camelize(prop)]; //检测style属性中的值
+		
+		if (value) {
+			
+			//获取计算样式
+			if (document.defaultView && document.defaultView.getComputedStyle) {
+				
+				//DOM方法
+				var css = document.defaultView.getComputedStyle(element, null);
+				value = css ? css.getPropertyValue(value) : null;
+			} else if (element.currentStyle) {
+				
+				//IE
+				value = element.currentStyle[camelize(prop)];
+			}
+		};
+		return value == "auto" ? "" : value;
+	}
 })();
