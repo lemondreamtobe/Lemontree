@@ -149,13 +149,23 @@
 		if (!(referenceNode = $(referenceNode))) {
 			return false;
 		};
-		return referenceNode.parentNode.insertBefore(node, referenceNode.nextSibling);
+		
+		if (referenceNode.nextSibling) {
+			return referenceNode.parentNode.insertBefore(node, referenceNode.nextSibling);	
+		} else {
+			var temperyNode = document.createElement("span");
+			referenceNode.parentNode.appendChild(temperyNode);
+			referenceNode.parentNode.insertBefore(node, referenceNode.nextSibling);
+			referenceNode.parentNode.removeChild(temperyNode);
+		}
+		
 		
 		//当referenceNode是最后一个子节点的情况下
 		//referenceNode.nextSibling是null， 不能实现
 	};
 	window["Lemontree"]["insertAfter"] = insertAfter;
 	
+	//清理所有子节点
 	function removeChildren(parent) {
 		
 		if (!(parent = $(parent))) {
@@ -187,7 +197,7 @@
 			//如果存在一个子节点，就在这之前插入
 			parent.insertBefore(newChild, parent.firstChild);
 		} else {
-			
+			alert("没有子节点")
 			//没有子节点
 			parent.appendChild(newChild);
 		};
@@ -231,6 +241,26 @@
 		DOCUMENT_FRAGMENT_NODE      : 11,
 		NOTATION_NODE               : 12	
 	};
+	
+	//查看节点类型
+	function checkNodeType(element) {
+		var nodeType = element.nodeType;
+		var nodeList = {};
+		for (var i in Lemontree.node) {
+			nodeList[Lemontree.node[i]] = i;
+		};
+		return nodeList[nodeType];	
+	};
+	window["Lemontree"]["checkNodeType"] = checkNodeType;
+	
+	//查看对象类型
+	function getObjectType(a) {
+		var typeArray = Object.prototype.toString.call(a).split(" ");
+		return function(a){
+			return a.slice(0, this.length-1);
+		}(typeArray[1]);
+	};
+	window["Lemontree"]["getObjectType"] = getObjectType;
 	
 	//遍历节点
 	function walkElementsLinear(func, node) {
@@ -567,5 +597,7 @@
 			}
 		};
 		return value == "auto" ? "" : value;
-	}
+	};
+	window["Lemontree"]["getComputedStyle"] = getComputedStyle;
+	
 })();
