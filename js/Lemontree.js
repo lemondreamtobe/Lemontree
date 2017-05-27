@@ -547,4 +547,25 @@
 	};
 	window["Lemontree"]["removeStyleSheet"] = removeStyleSheet;
 	
+	function getComputedStyle(element, prop){
+		
+		if (!(element = $(element)) || !prop) {return false;}
+		var value = element.style[camelize(prop)]; //检测style属性中的值
+		
+		if (value) {
+			
+			//获取计算样式
+			if (document.defaultView && document.defaultView.getComputedStyle) {
+				
+				//DOM方法
+				var css = document.defaultView.getComputedStyle(element, null);
+				value = css ? css.getPropertyValue(value) : null;
+			} else if (element.currentStyle) {
+				
+				//IE
+				value = element.currentStyle[camelize(prop)];
+			}
+		};
+		return value == "auto" ? "" : value;
+	}
 })();
