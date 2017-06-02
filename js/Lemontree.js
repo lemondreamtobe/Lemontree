@@ -124,6 +124,7 @@
 	};
 	window["Lemontree"]["getElementByClassName"] = getElementByClassName;
 	
+	//tested
 	function toggleDisplay(node, value) {
 		
 		if (!(node = $(node))) {
@@ -139,6 +140,7 @@
 	};
 	window["Lemontree"]["toggleDisplay"] = toggleDisplay;
 	
+	//tested
 	function insertAfter(node, referenceNode) {
 		
 		if (!(node = $(node))) {
@@ -164,7 +166,7 @@
 	};
 	window["Lemontree"]["insertAfter"] = insertAfter;
 	
-	//清理所有子节点
+	//清理所有子节点 tested
 	function removeChildren(parent) {
 		
 		if (!(parent = $(parent))) {
@@ -181,6 +183,7 @@
 	};
 	window["Lemontree"]["removeChildren"] = removeChildren;
 	
+	//tested
 	function prependChild(parent, newChild) {
 		
 		if (!(parent = $(parent))) {
@@ -208,6 +211,7 @@
 	};
 	window["Lemontree"]["prependChild"] = prependChild;
 	
+	//tested
 	function bindFunction(obj, func) {
 		return function() {
 			func.apply(obj, arguments);
@@ -215,7 +219,7 @@
 	};
 	window["Lemontree"]["binFunction"] = bindFunction;
 	
-	//获取窗口大小
+	//获取窗口大小 tested
 	function getBrowserWindowSize() {
 		var de = document.documentElement;
 		return {
@@ -241,7 +245,7 @@
 		NOTATION_NODE               : 12	
 	};
 	
-	//查看节点类型
+	//查看节点类型 tested
 	function checkNodeType(element) {
 		var nodeType = element.nodeType;
 		var nodeList = {};
@@ -252,7 +256,7 @@
 	};
 	window["Lemontree"]["checkNodeType"] = checkNodeType;
 	
-	//查看对象类型
+	//查看对象类型 tested
 	function getObjectType(a) {
 		var typeArray = Object.prototype.toString.call(a).split(" ");
 		return function(a){
@@ -261,7 +265,7 @@
 	};
 	window["Lemontree"]["getObjectType"] = getObjectType;
 	
-	//遍历节点
+	//遍历节点 tested
 	function walkElementsLinear(func, node) {
 		var root = node || window.document;
 		var nodes = root.getElementsByTagName("*");
@@ -396,7 +400,7 @@
 	};
 	window["Lemontree"]["getMouseButton"] = getMouseButton;
 	
-	//获取鼠标在相对于文档原点的位置
+	//获取鼠标在相对于文档原点的位置 tested
 	function getMousePosition(e) {
 		e = e || getEvent(e);
 		
@@ -408,6 +412,7 @@
 	};
 	window["Lemontree"]["getMousePosition"] = getMousePosition;
 	
+	//tested
 	function getKeyPress(e) {
 		e = e || getEvent(e);
 		
@@ -464,7 +469,7 @@
 	};
 	window["Lemontree"]["setStyleByTagName"] = setStyleByTagName;
 	
-	//获取元素class名
+	//获取元素class名 tested
 	function getClassNames(element) {
 		
 		if (!(element = $(element))) {
@@ -540,6 +545,7 @@
 	};
 	window["Lemontree"]["removeStyleSheet"] = removeStyleSheet;
 	
+	//tested
 	function getComputedStyle(element, prop){
 		
 		if (!(element = $(element)) || !prop) {return false;}
@@ -552,7 +558,7 @@
 				
 				//DOM方法
 				var css = document.defaultView.getComputedStyle(element, null);
-				value = css ? css.getPropertyValue(value) : null;
+				value = css ? css.getPropertyValue(prop) : null;
 			} else if (element.currentStyle) {
 				
 				//IE
