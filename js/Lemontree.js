@@ -470,7 +470,7 @@
 		if (!(element = $(element))) {
 			return false;
 		};
-		return element.className.replace(/s+/,"").split(" ");
+		return element.className.replace(/\s+/," ").split(" ");
 	};
 	window["Lemontree"]["getClassNames"] = getClassNames;
 	
@@ -545,7 +545,7 @@
 		if (!(element = $(element)) || !prop) {return false;}
 		var value = element.style[camelize(prop)]; //检测style属性中的值
 		
-		if (value) {
+		if (!value) {
 			
 			//获取计算样式
 			if (document.defaultView && document.defaultView.getComputedStyle) {
@@ -559,7 +559,7 @@
 				value = element.currentStyle[camelize(prop)];
 			}
 		};
-		return value == "auto" ? "" : value;
+		return (value == "auto") ? "" : value;
 	};
 	window["Lemontree"]["getComputedStyle"] = getComputedStyle;
 	
