@@ -97,7 +97,7 @@
 	};
 	window["Lemontree"]["removeEvent"] = removeEvent;
 	
-	function getElementByClassName(className, tag, parent) {
+	function getElementsByClassName(className, tag, parent) {
 		parent = parent || document;
 		tag = tag || "*";
 		
@@ -122,19 +122,20 @@
 		};
 		return mathchingElements;
 	};
-	window["Lemontree"]["getElementByClassName"] = getElementByClassName;
+	window["Lemontree"]["getElementsByClassName"] = getElementsByClassName;
 	
 	//tested
 	function toggleDisplay(node, value) {
+		value = value || "block";
 		
 		if (!(node = $(node))) {
 			return false;
 		};
 		
-		if (node.style.display != "none") {
-			node.style.display = "none";
+		if (getComputedStyle(node,'display') != 'none') {
+			node.style.display = 'none';
 		} else {
-			node.style.display = value || "";
+			node.style.display = value || '';
 		};
 		return true;
 	};
