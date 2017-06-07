@@ -142,6 +142,8 @@
 	window["Lemontree"]["toggleDisplay"] = toggleDisplay;
 	
 	//tested
+	//在指定元素之后插入元素
+	//与insertBefore相反
 	function insertAfter(node, referenceNode) {
 		
 		if (!(node = $(node))) {
@@ -160,10 +162,6 @@
 			referenceNode.parentNode.insertBefore(node, referenceNode.nextSibling);
 			referenceNode.parentNode.removeChild(temperyNode);
 		}
-		
-		
-		//当referenceNode是最后一个子节点的情况下
-		//referenceNode.nextSibling是null， 不能实现
 	};
 	window["Lemontree"]["insertAfter"] = insertAfter;
 	
