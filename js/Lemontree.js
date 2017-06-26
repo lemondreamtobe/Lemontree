@@ -588,5 +588,56 @@
 		return s.replace(/(^\s*)|(\s*$)/g, "");
 	};
 	window['Lemontree']['trim'] = trim;
-	var a = '22';
+	
+	//查询字符串
+	function getQueryStrings() {
+		var qs = ((location.search.length > 0) ? location.search.substring(1) : "");
+		var args = {};
+		var items = qs.length ? qs.split("&") : [];
+		var item = null, name = null, value = null, i = 0, len = items.length;
+		
+		for (i = 0; i < len; i++) {
+			item = items[i].split("=");
+			name = decodeURIComponent(item[0]);
+			value = decodeURIComponent(item[1]);
+			
+			if (name.length) {
+				args[name] = value;
+			};
+		};
+		return args;
+	};
+	window['Lemontree']['getQueryStrings'] = getQueryStrings;
+	
+	//跨浏览器检测插件
+	//针对不同的插件分别创建检测函数，比如Flash
+	function hasPlugin(name) { 
+		name = name.toLowerCase();
+		for (var i = 0; i < navigator.plugins.length; i++) {
+			
+			if (navigator.plugins[i].name.toLowerCase().indexOf(name) > -1) {
+				return true;
+			};
+		};
+		return false
+	};
+	function ieHasPlugin(name) {
+		try {
+			new ActiveXObject(name);
+			return true;
+		} catch (ex) {
+			return false;
+		}
+	}
+	function hasFlash() {
+		var result = hasPlugin('Flash');
+		
+		if (!result) {
+			result = ieHasPlugin('ShockwaveFlash.ShockwaveFlash');
+			
+			//IE以COM对象方式实现插件，COM对象用唯一标识符标识，检测特定的插件需要知道COM标志符
+			//这也是为什么需要针对每一种插件做特定函数来检测的原因
+		};
+		return result;
+	};
 })();
