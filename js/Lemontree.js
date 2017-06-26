@@ -588,4 +588,5 @@
 		return s.replace(/(^\s*)|(\s*$)/g, "");
 	};
 	window['Lemontree']['trim'] = trim;
+	var a = '22';
 })();
