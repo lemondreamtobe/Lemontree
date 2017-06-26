@@ -198,7 +198,7 @@
 			//如果存在一个子节点，就在这之前插入
 			parent.insertBefore(newChild, parent.firstChild);
 		} else {
-			alert("没有子节点")
+			alert("没有子节点");
 			//没有子节点
 			parent.appendChild(newChild);
 		};
@@ -568,4 +568,24 @@
 	};
 	window["Lemontree"]["getComputedStyle"] = getComputedStyle;
 	
+	//获取特定范围内的随机数 tested
+	function selectFrom(lowerVal, upperVal) {
+		var choices = upperVal - lowerVal + 1;
+		return Math.floor(Math.random() * choices + lowerVal);
+	};
+	window['Lemontree']['selectFrom'] = selectFrom;
+	
+	//继承的最优方法 tested
+	function inherit(sub, sup) {
+		var prototype = Object(sup.prototype);
+		prototype.constructor = sub;
+		sub.prototype = prototype;
+	};
+	window['Lemontree']['inherit'] = inherit;
+	
+	//IE8下的trim tested
+	function trim(s) {
+		return s.replace(/(^\s*)|(\s*$)/g, "");
+	};
+	window['Lemontree']['trim'] = trim;
 })();
