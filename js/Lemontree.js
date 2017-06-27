@@ -640,4 +640,23 @@
 		};
 		return result;
 	};
+	
+	//判断ie浏览器
+	function isIE(){
+		if (navigator.appName == "Microsoft Internet Explorer" && navigator.appVersion .split(";")[1].replace(/[ ]/g,"")=="MSIE8.0") { 
+			return true;
+		} else {
+			return false;	
+		};
+	};
+	window['Lemontree']['isIE'] = isIE;
+	
+	//获取特定的类型
+	function getObjectType(a) {
+		var typeArray = Object.prototype.toString.call(a).split(" ");
+		return function(a){
+			return a.slice(0, this.length-1);
+		}(typeArray[1]);
+	};
+	window["Lemontree"]["getObjectType"] = getObjectType;
 })();
